@@ -21,9 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'tid',
             'name',
-            'flag',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+            'visibleButtons' => [
+                'view' => Yii::$app->user->can('update')
+            ]]
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
