@@ -1,0 +1,101 @@
+
+CREATE TABLE IF NOT EXISTS `r_table` (
+  `tid` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `flag` enum('true','false') NOT NULL DEFAULT 'true'
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `orders` (
+  `tid` int(11) NOT NULL,
+  `iid` int(11) NOT NULL,
+  `kid` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `flag` enum('true','false') NOT NULL,
+  `status` tinyint(2) NOT NULL DEFAULT '0',
+  `rank` int(11) NOT NULL,
+  `message` varchar(250) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `bill` (
+  `bid` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `payment_mode` enum('cash','card','credit') NOT NULL,
+  `discount` int(11) NOT NULL DEFAULT '0',
+  `amount` int(11) DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=2315 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `bill_kot` (
+  `bid` int(11) NOT NULL,
+  `kid` int(11) NOT NULL,
+  `flag` enum('true','false') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `item` (
+  `iid` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `description` text,
+  `cost` int(11) NOT NULL,
+  `flag` enum('true','false') NOT NULL DEFAULT 'true'
+) ENGINE=InnoDB AUTO_INCREMENT=388 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `kot` (
+  `kid` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `flag` enum('true','false') NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3830 DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE `r_table`
+  ADD PRIMARY KEY (`tid`),
+  ADD UNIQUE KEY `name` (`name`);
+
+ALTER TABLE `bill`
+  ADD PRIMARY KEY (`bid`),
+  ADD UNIQUE KEY `timestamp` (`timestamp`);
+
+ALTER TABLE `bill_kot`
+  ADD PRIMARY KEY (`bid`,`kid`),
+  ADD KEY `kid` (`kid`);
+
+ALTER TABLE `item`
+  ADD PRIMARY KEY (`iid`),
+  ADD UNIQUE KEY `name` (`name`);
+
+ALTER TABLE `kot`
+  ADD PRIMARY KEY (`kid`);
+
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`tid`,`iid`,`kid`,`rank`),
+  ADD KEY `iid` (`iid`),
+  ADD KEY `kid` (`kid`),
+  ADD KEY `tid` (`tid`),
+  ADD KEY `rank` (`rank`);
+
+ALTER TABLE `r_table`
+  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `bill`
+  MODIFY `bid` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `kot`
+  MODIFY `kid` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `item`
+  MODIFY `iid` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `bill_kot`
+  ADD CONSTRAINT `bill_kot_ibfk_1` FOREIGN KEY (`bid`) REFERENCES `bill` (`bid`),
+  ADD CONSTRAINT `bill_kot_ibfk_2` FOREIGN KEY (`kid`) REFERENCES `kot` (`kid`);
+
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`tid`) REFERENCES `r_table` (`tid`),
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`iid`) REFERENCES `item` (`iid`),
+  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`kid`) REFERENCES `kot` (`kid`);
+
+
+
+

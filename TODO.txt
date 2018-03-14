@@ -1,0 +1,4 @@
+1. Reports 
+2. Printing Bill
+3. Printing KOT
+4. 
