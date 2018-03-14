@@ -64,7 +64,6 @@ class Orders extends \yii\db\ActiveRecord
                           ->andWhere(['iid' => $orders[$i]->iid])
                           ->andWhere(['kid' => $orders[$i]->kid])
                           ->one();
-        echo $o->item->name;
         if($formOrders->flag[$i] == 'false'){
           $o->flag = 'false';
           $o->save();

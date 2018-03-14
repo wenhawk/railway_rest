@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\RTable */
 
-$this->title = 'Create Rtable';
+$this->title = 'Create Table';
 $this->params['breadcrumbs'][] = ['label' => 'Rtables', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

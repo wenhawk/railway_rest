@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\RTable */
 
-$this->title = 'Update Rtable: ' . $model->name;
+$this->title = 'Update Table: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Rtables', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->tid]];
 $this->params['breadcrumbs'][] = 'Update';

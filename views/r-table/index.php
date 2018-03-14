@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\SearchRTable */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Rtables';
+$this->title = 'Tables';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rtable-index">

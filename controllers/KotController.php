@@ -86,10 +86,11 @@ class KotController extends Controller
           $orderArray = Orders::updateOrders($formOrders, $orders);
           try{
             Kot::printKot($kot, $orderArray);
-          }          
+          }
           catch(yii\Base\ErrorException $e) {
              // print not conected
           }
+          return $this->redirect(['site/index']);
         } else {
             return $this->render('edit_kot', [
                 'orders' => $orders,
