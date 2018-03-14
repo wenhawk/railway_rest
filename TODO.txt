@@ -1,4 +1,14 @@
-1. Reports 
-2. Printing Bill
-3. Printing KOT
-4. 
+1.  FEATURE: Report - Implement Reports 
+2.  FEATURE: KOT Master - Delete KOT
+3.  FEATURE: Bill Master - Delete Bill 
+4.  CHANGE:  Bill Master -  orderd by bid and pageinate set to 10
+5.  FEATURE: Bill Master - GridView search by table name 
+6.  CHANGE:  Table Master - remove actionView button 
+7.  FEATURE: Table Master - Delete Table
+8.  CHANGE:  Item Master - remove actionView Button, remove Flag column and show item only with Flag = True
+9.  CHANGE:  Update Item - change the title to Update <table name>
+10. FEATURE: Bill Print - print the bill with discount and address of the restaurant   
+11. CHANGE: Kot Update - remove debuging statements 
+12. FEATURE: Kot Generate - make adding of the items keyboard friendly
+13. CHANGE: Index - remove the Active/Delete dropdown box 
+14. FEATURE: Bill Print - add support for dot-matrix printers 
