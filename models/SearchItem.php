@@ -61,6 +61,7 @@ class SearchItem extends Item
         $query->andFilterWhere([
             'iid' => $this->iid,
             'cost' => $this->cost,
+            'flag' => 'true'
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

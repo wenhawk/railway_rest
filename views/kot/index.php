@@ -11,11 +11,8 @@ use yii\widgets\Pjax;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-
             'kid',
             'timestamp',
-            'flag',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

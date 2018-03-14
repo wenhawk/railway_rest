@@ -45,6 +45,7 @@ class SearchBill extends Bill
             return $dataProvider;
         }
         // grid filtering conditions
+        $query->orderBy(['bid'=>SORT_DESC]);
         $query->andFilterWhere([
             'bid' => $this->bid,
             'timestamp' => $this->timestamp,

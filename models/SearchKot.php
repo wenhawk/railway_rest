@@ -58,6 +58,7 @@ class SearchKot extends Kot
         }
 
         // grid filtering conditions
+        $query->orderBy(['kid'=>SORT_DESC]);
         $query->andFilterWhere([
             'kid' => $this->kid,
             'timestamp' => $this->timestamp,
