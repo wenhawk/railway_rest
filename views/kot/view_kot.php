@@ -1,6 +1,16 @@
 <?php ?>
 <div class="container">
-<h2><?= $orders[0]->table->name ?></h2>
+  <div class="row">
+    <div class="col-md-4">
+      <h2><?= $orders[0]->table->name ?></h2>
+    </div>
+    <div class="col-md-4">
+      <h2>&nbsp</h2>
+    </div>
+    <div class="col-md-4">
+      <h3> Waiter: <?= $waiter->name ?></h3>
+    </div>
+  </div>
   <table class="table ">
       <th>Item</th>
       <th>Cost</th>
@@ -17,7 +27,5 @@
      <?php } ?>
   </table>
 </div>
-
-
   <center><button class="btn btn-success" type="submit" name="button">PRINT</button><center>
 </form>

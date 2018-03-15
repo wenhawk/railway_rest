@@ -2,7 +2,17 @@
 use yii\widgets\ActiveForm;
 ?>
 <div class="container">
-<h2><?= $orders[0]->table->name ?></h2>
+  <div class="row">
+    <div class="col-md-4">
+      <h2><?= $orders[0]->table->name ?></h2>
+    </div>
+    <div class="col-md-4">
+      <h2>&nbsp</h2>
+    </div>
+    <div class="col-md-4">
+      <h3> Waiter: <?= $waiter->name ?></h3>
+    </div>
+  </div>
   <table class="table ">
       <th>Item</th>
       <th>Quantity</th>

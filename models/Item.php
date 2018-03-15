@@ -27,7 +27,7 @@ class Item extends \yii\db\ActiveRecord
     {
         return [
             'iid' => 'Iid',
-            'name' => 'Name',
+            'name' => 'ITEM NAME',
             'cost' => 'Cost',
             'flag' => 'Flag',
         ];

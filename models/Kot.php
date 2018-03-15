@@ -32,10 +32,11 @@ class Kot extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function createKot($order){
+    public static function createKot($order,$waiter){
       $kot = new Kot();
       $kot->flag = 'true';
       $kot->timestamp = '';
+      $kot->wid = $waiter->name;
       $kot->save();
       for ($i=0; $i < sizeof($order->iid); $i++) {
         $o = new Orders();

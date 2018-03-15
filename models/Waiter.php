@@ -40,7 +40,7 @@ class Waiter extends \yii\db\ActiveRecord
     {
         return [
             'wid' => 'Wid',
-            'name' => 'Name',
+            'name' => 'Waiter',
         ];
     }
 

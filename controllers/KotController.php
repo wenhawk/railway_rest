@@ -6,6 +6,7 @@ use Yii;
 use app\models\Kot;
 use app\models\Orders;
 use app\models\RTable;
+use app\models\Waiter;
 use app\models\Item;
 use app\models\SearchKot;
 use yii\web\Controller;
@@ -52,10 +53,11 @@ class KotController extends Controller
     {
         $order = new Orders();
         $item = new Item();
+        $waiter = new Waiter();
         $table = RTable::findOne($tid);
 
-        if ($order->load(Yii::$app->request->post())) {
-             $kot = Kot::createKot($order);
+        if ($order->load(Yii::$app->request->post()) && $waiter->load(Yii::$app->request->post())) {
+             $kot = Kot::createKot($order,$waiter);
              $orders = $kot->getAllOrders();
              try{
                Kot::printKot($kot->kid, $orders);
@@ -68,7 +70,8 @@ class KotController extends Controller
             return $this->render('create', [
                 'order' => $order,
                 'table' => $table,
-                'item' => $item
+                'item' => $item,
+                'waiter' => $waiter
             ]);
         }
     }
@@ -76,16 +79,19 @@ class KotController extends Controller
     public function actionView($id)
     {
       $kot = Kot::findOne($id);
+      $waiter = Waiter::findOne($kot->wid);
       $orders = $kot->getAllOrders();
         return $this->render('view_kot',[
           'orders' => $orders,
-          'kot' => $kot
+          'kot' => $kot,
+          'waiter' => $waiter,
         ]);
     }
 
     public function actionUpdate($id)
     {
         $kot = $this->findModel($id);
+        $waiter = Waiter::findOne($kot->wid);
         $orders = $kot->getAllOrders();
           $formOrders = new Orders();
           if ($formOrders->load(Yii::$app->request->post())) {
@@ -105,7 +111,8 @@ class KotController extends Controller
           } else {
               return $this->render('edit_kot', [
                   'orders' => $orders,
-                  'kot' => $kot
+                  'kot' => $kot,
+                  'waiter' => $waiter,
               ]);
           }
     }

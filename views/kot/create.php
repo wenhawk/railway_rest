@@ -5,7 +5,8 @@ use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-use app\models\Item
+use app\models\Item;
+use app\models\Waiter;
 
 ?>
 
@@ -31,9 +32,24 @@ use app\models\Item
 
             <input id="tableaj-tid" class="form-control" name="Tableaj[tid]" value='<?= $table->tid ?>' type="hidden">
 
-            <div class="col-md-7">
+            <div class="col-md-5">
             <? echo $form->field($item, 'name')->widget(Select2::classname(), [
             'data' =>  ArrayHelper::map(Item::find()->where(['flag'=>'true'])->all(), 'iid','name'),
+            'language' => 'en',
+            'options' =>
+            ['placeholder' => 'select',
+            'onChange' => 'selectOnChange()'
+            ],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+            ]);
+            ?>
+            </div>
+
+            <div class="col-md-2">
+            <? echo $form->field($waiter, 'name')->widget(Select2::classname(), [
+            'data' =>  ArrayHelper::map(Waiter::find()->where(['flag'=>'true'])->all(), 'wid','name'),
             'language' => 'en',
             'options' =>
             ['placeholder' => 'select',
