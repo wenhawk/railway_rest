@@ -18,6 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
       <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'rowOptions' => function($model){
+          if($model->flag == 'false'){
+            return ['class' => 'danger'];
+          }
+        },
         'columns' => [
             'tid',
             'name',

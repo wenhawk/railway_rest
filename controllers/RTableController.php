@@ -82,8 +82,9 @@ class RTableController extends Controller
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $model->flag = 'false';
+        $model->save();
         return $this->redirect(['index']);
     }
 
