@@ -36,7 +36,8 @@ use app\models\Item
             'data' =>  ArrayHelper::map(Item::find()->where(['flag'=>'true'])->all(), 'iid','name'),
             'language' => 'en',
             'options' =>
-            ['placeholder' => 'select'
+            ['placeholder' => 'select',
+            'onChange' => 'selectOnChange()'
             ],
             'pluginOptions' => [
                 'allowClear' => true
@@ -47,7 +48,7 @@ use app\models\Item
 
             <div class="col-md-3">
               <h1><h1>
-                <center><input type="button" class="btn btn-success" value="ADD ITEM" onclick="addField();"> <br><br></center>
+                <center><input id="addButton" type="button" class="btn btn-success" value="ADD ITEM" onclick="addField();"> <br><br></center>
             </dev>
 
     </div>
@@ -69,6 +70,11 @@ use app\models\Item
 <script>
 
     rowCount = 1;
+
+    function selectOnChange(){
+      console.log('change');
+    }
+
     function addField (argument) {
 
             var myTable = document.getElementById("myTable");

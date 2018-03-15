@@ -43,18 +43,31 @@ class Orders extends \yii\db\ActiveRecord
 
     public static function mergeIdenticalOrders($orders) {
       $orderArray = [];
-      $newOrder = $orders[0];
-      for($i=1; $i < sizeof($orders); $i++) {
-        if($orders[$i]->iid == $newOrder->iid){
-          $newOrder->quantity = $newOrder->quantity + $orders[$i]->quantity;
+      if($orders){
+        $newOrder = $orders[0];
+        for($i=1; $i < sizeof($orders); $i++) {
+          if($orders[$i]->iid == $newOrder->iid){
+            $newOrder->quantity = $newOrder->quantity + $orders[$i]->quantity;
+          }
+          else{
+            array_push($orderArray, $newOrder);
+            $newOrder = $orders[$i];
+          }
         }
-        else{
-          array_push($orderArray, $newOrder);
-          $newOrder = $orders[$i];
-        }
+        array_push($orderArray, $newOrder);
       }
-      array_push($orderArray, $newOrder);
       return $orderArray;
+    }
+
+    public static function getAllOrders($startDate, $endDate){
+      $query = Orders::find();
+      $query->joinWith('kot');
+      $orders = $query->where('timestamp between \''.$startDate.'\' and \''.$endDate.'\'')
+                      ->andWhere(['orders.flag'=>'true'])
+                      ->orderBy(['iid'=>SORT_DESC])
+              ->all();
+      $orders = Orders::mergeIdenticalOrders($orders);
+      return $orders;
     }
 
     public static function updateOrders($formOrders, $orders) {

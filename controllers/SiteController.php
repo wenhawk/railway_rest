@@ -8,7 +8,9 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\RTable;
+use app\models\Bill;
 use app\models\Report;
+use app\models\Orders;
 
 class SiteController extends Controller
 {
@@ -58,7 +60,27 @@ class SiteController extends Controller
     public function actionReport() {
       $model = new Report();
       if($model->load(Yii::$app->request->post())) {
-        echo 'report';
+        $startDate = $model->startDate;
+        if($model->endDate){
+          $endDate = $model->endDate;
+        }
+        else{
+          $endDate = $startDate;
+        }
+        $startDate = $startDate.' 00:00:00';
+        $endDate = $endDate.' 23:59:59';
+        $total =  Bill::calculateBillTotal($startDate,$endDate);
+        $cash = Bill::calculateBillTotalWithPaymentMode($startDate,$endDate,'cash');
+        $card = Bill::calculateBillTotalWithPaymentMode($startDate,$endDate,'card');
+        $credit = Bill::calculateBillTotalWithPaymentMode($startDate,$endDate,'credit');
+        $orders = Orders::getAllOrders($startDate,$endDate);
+        return $this->render('viewReport',[
+          'total' => $total,
+          'cash' => $cash,
+          'card' => $card,
+          'credit' => $credit,
+          'orders' => $orders
+        ]);
       }
       else{
         return $this->render('report');

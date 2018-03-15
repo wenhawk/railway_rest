@@ -60,6 +60,20 @@ class Bill extends \yii\db\ActiveRecord
         return $orders[0]->table->name;
     }
 
+    public static function calculateBillTotal($startDate,$endDate){
+      $total = Bill::find()->where('timestamp between \''.$startDate.'\' and \''.$endDate.'\'')
+              ->andWhere(['<>','payment_mode','credit'])
+              ->sum('amount');
+      return $total;
+    }
+
+    public static function calculateBillTotalWithPaymentMode($startDate,$endDate,$payment_mode){
+      $total = Bill::find()->where('timestamp between \''.$startDate.'\' and \''.$endDate.'\'')
+              ->andWhere(['payment_mode'=>$payment_mode])
+              ->sum('amount');
+      return $total;
+    }
+
     public function getKots()
     {
         return $this->hasMany(Kot::className(), ['kid' => 'kid'])->viaTable('bill_kot', ['bid' => 'bid']);

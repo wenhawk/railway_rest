@@ -1,4 +1,4 @@
-1.  FEATURE: Report - Implement Reports
+1[DONE].  FEATURE: Report - Implement Reports
 2[DONE].  FEATURE: KOT Master - Delete KOT
 3[DONE].  FEATURE: Bill Master - Delete Bill
 4[DONE].  CHANGE:  Bill Master -  orderd by bid and pageinate set to 10
@@ -14,3 +14,7 @@
 14. FEATURE: Bill Print - add support for dot-matrix printers
 15. FEATURE: Bill View - view and print a bill
 16. FEATURE: Bill Update - update and print a bill
+17. FEATURE: Bill Model - add new field called GST and calculate the bill amount with GST
+18. FEATURE: Bill Print - Print Bill with GST
+19. FEATURE: Kot Print - Print all Kots at the end of the days
+20. FEATURE: View Reports - get DataTables

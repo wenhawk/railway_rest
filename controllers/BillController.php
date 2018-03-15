@@ -44,6 +44,8 @@ class BillController extends Controller
         $bill = Bill::findOne($id);
         $orders = Orders::find()->where(['in','orders.kid',BillKot::find()
                                ->where(['bid'=>$id])->select('kid')])
+                               ->andWhere(['flag'=>'true'])
+                               ->orderBy(['iid'=>SORT_DESC])
                                ->all();
         $orders = Orders::mergeIdenticalOrders($orders);
         $table = RTable::findOne($orders[0]->tid);
