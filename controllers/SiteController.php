@@ -69,7 +69,8 @@ class SiteController extends Controller
         }
         $startDate = $startDate.' 00:00:00';
         $endDate = $endDate.' 23:59:59';
-        $total =  Bill::calculateBillTotal($startDate,$endDate);
+        $total =  Bill::calculateBillTotal($startDate,$endDate,'amount');
+        $tax =  Bill::calculateBillTotal($startDate,$endDate,'tax');
         $cash = Bill::calculateBillTotalWithPaymentMode($startDate,$endDate,'cash');
         $card = Bill::calculateBillTotalWithPaymentMode($startDate,$endDate,'card');
         $credit = Bill::calculateBillTotalWithPaymentMode($startDate,$endDate,'credit');
@@ -79,7 +80,8 @@ class SiteController extends Controller
           'cash' => $cash,
           'card' => $card,
           'credit' => $credit,
-          'orders' => $orders
+          'orders' => $orders,
+          'tax' => $tax
         ]);
       }
       else{

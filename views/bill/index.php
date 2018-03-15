@@ -20,6 +20,8 @@ use yii\widgets\Pjax;
             'timestamp',
             'payment_mode',
             'discount',
+            'gst',
+            'tax',
             'amount',
             ['class' => 'yii\grid\ActionColumn'],
         ],

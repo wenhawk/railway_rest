@@ -5,37 +5,48 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Bill;
+use app\models\Tax;
 
-
-class SearchBill extends Bill
+/**
+ * SearchTax represents the model behind the search form about `app\models\Tax`.
+ */
+class SearchTax extends Tax
 {
-
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['bid', 'discount', 'amount'], 'integer'],
-            [['timestamp', 'payment_mode','gst','tax'], 'safe'],
+            [['tid', 'value'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
-
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
-
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
     public function search($params)
     {
-        $query = Bill::find();
+        $query = Tax::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [ 'pageSize' => 10 ]
         ]);
 
         $this->load($params);
@@ -45,18 +56,14 @@ class SearchBill extends Bill
             // $query->where('0=1');
             return $dataProvider;
         }
+
         // grid filtering conditions
-        $query->orderBy(['bid'=>SORT_DESC]);
         $query->andFilterWhere([
-            'bid' => $this->bid,
-            'tax' => $this->tax,
-            'gst' => $this->gst,
-            'timestamp' => $this->timestamp,
-            'discount' => $this->discount,
-            'amount' => $this->amount,
+            'tid' => $this->tid,
+            'value' => $this->value,
         ]);
 
-        $query->andFilterWhere(['like', 'payment_mode', $this->payment_mode]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

@@ -1,18 +1,26 @@
 <div class="row">
   <center>
-  <div class="col-md-3">
+  <div class="col-md-2">
+    <h3>GRAND TOTAL</h3>
+    <h3><?= $total + $tax ?></h3>
+  </div>
+  <div class="col-md-2">
     <h3>TOTAL</h3>
     <h3><?= $total ?></h3>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
+    <h3> TAX</h3>
+    <h3><?= $tax ?></h3>
+  </div>
+  <div class="col-md-2">
     <h3>CASH</h3>
     <h3><?= $cash ?></h3>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <h3>CARD</h3>
     <h3><?= $card ?></h3>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <h3>CREDIT</h3>
     <h3><?= $credit ?></h3>
   </div>

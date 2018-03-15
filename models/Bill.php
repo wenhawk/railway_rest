@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\models\BillKot;
+use app\models\Tax;
 
 class Bill extends \yii\db\ActiveRecord
 {
@@ -17,9 +18,9 @@ class Bill extends \yii\db\ActiveRecord
     {
         return [
             [['timestamp','print'], 'safe'],
-            [['payment_mode','discount'], 'required'],
+            [['payment_mode','discount','gst','tax'], 'required'],
             [['payment_mode','print'], 'string'],
-            [['discount', 'amount'], 'integer'],
+            [['discount', 'amount','gst','tax'], 'integer'],
             [['timestamp'], 'unique'],
         ];
     }
@@ -45,7 +46,10 @@ class Bill extends \yii\db\ActiveRecord
     }
 
     public function generateBill($table, $amount) {
+      $tax = Tax::find()->one();
+      $this->gst = $tax->value;
       $this->amount = $amount;
+      $this->tax = $amount * ($tax->value/100);
       $this->save();
       $kots = $table->getKotNotBilled();
       foreach ($kots as $kot) {
@@ -69,10 +73,10 @@ class Bill extends \yii\db\ActiveRecord
         return $orders[0]->table->name;
     }
 
-    public static function calculateBillTotal($startDate,$endDate){
+    public static function calculateBillTotal($startDate,$endDate,$column){
       $total = Bill::find()->where('timestamp between \''.$startDate.'\' and \''.$endDate.'\'')
               ->andWhere(['<>','payment_mode','credit'])
-              ->sum('amount');
+              ->sum($column);
       return $total;
     }
 

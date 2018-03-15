@@ -14,12 +14,14 @@
 14. FEATURE: Bill Print - add support for dot-matrix printers
 15. FEATURE: Bill View - view and print a bill
 16. FEATURE: Bill Update - update and print a bill
-17. FEATURE: Bill Model - add new field called GST and calculate the bill amount with GST
+17[DONE]. FEATURE: Bill Model - add new field called GST and calculate the bill amount with GST
 18. FEATURE: Bill Print - Print Bill with GST
 19. FEATURE: Kot Print - Print all Kots at the end of the days
 20. FEATURE: View Reports - get DataTables
 21[DONE]: CHANGE: KOT Master - remove actionDelete, actionView and actionEdit button
 22[DONE]: FEATURE: Create Waiter Master
-23: FEATURE: Kot Create  - add waiter to KOT
+23[DONE]: FEATURE: Kot Create  - add waiter to KOT
 24[DONE]: CHANGE: Kot View/Update  - show waiter in KOT
 25: CHANGE: Kot Update  - Update KOT
+26: FEATURE: Kot Print  - Print to networked printer
+27[DONE]: FEATURE: Reports - Show GST total in reports

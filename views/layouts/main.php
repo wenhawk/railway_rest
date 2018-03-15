@@ -64,6 +64,7 @@ AppAsset::register($this);
             ['label' => 'ITEM', 'url' => ['/item/index']],
             ['label' => 'TABLE', 'url' => ['/r-table/index']],
             ['label' => 'WAITER', 'url' => ['/waiter/index']],
+            ['label' => 'TAX', 'url' => ['/tax/index']]
         ],
     ]);
     NavBar::end();
