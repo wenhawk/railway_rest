@@ -27,6 +27,19 @@ class KotController extends Controller
         ];
     }
 
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+        $orders = $model->orders;
+        foreach ($orders as $order) {
+          $order->flag = 'false';
+          $order->save();
+        }
+        $model->flag = 'false';
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
     public function actionIndex()
     {
         $searchModel = new SearchKot();

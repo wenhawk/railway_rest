@@ -4,7 +4,7 @@
 4[DONE].  CHANGE:  Bill Master -  orderd by bid and pageinate set to 10
 5.  FEATURE: Bill Master - GridView search by table name
 6[DONE].  CHANGE:  Table Master - remove actionView button
-7[DONE].  FEATURE: Table Master - Delete Table 
+7[DONE].  FEATURE: Table Master - Delete Table
 8[DONE].  CHANGE:  Item Master - remove actionView Button, remove Flag column and show item only with Flag = True
 9[DONE].  CHANGE:  Update Item - change the title to Update <table name>
 10. FEATURE: Bill Print - print the bill with discount and address of the restaurant
