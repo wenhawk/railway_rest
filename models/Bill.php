@@ -35,6 +35,15 @@ class Bill extends \yii\db\ActiveRecord
         ];
     }
 
+    public function isEmpty(){
+      $billKots = BillKot::find()->where(['flag'=>'true'])->all();
+      if($billKots){
+        return False;
+      }else{
+        return True;
+      }
+    }
+
     public function generateBill($table, $amount) {
       $this->amount = $amount;
       $this->save();

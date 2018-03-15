@@ -51,6 +51,23 @@ class Kot extends \yii\db\ActiveRecord
       return $kot;
     }
 
+    public function isEmpty() {
+      $orders = $this->getAllOrders();
+      if($orders){
+        return False;
+      }else{
+        return True;
+      }
+    }
+
+    public function deleteAllOrders(){
+        $orders = $this->getAllOrders();
+        foreach ($orders as $order) {
+          $order->flag = 'false';
+          $order->save();
+        }
+    }
+
     public function getAllOrders(){
       $orders = Orders::find()->joinWith('kot')
                 ->joinWith('item')

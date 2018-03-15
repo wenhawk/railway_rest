@@ -18,3 +18,6 @@
 18. FEATURE: Bill Print - Print Bill with GST
 19. FEATURE: Kot Print - Print all Kots at the end of the days
 20. FEATURE: View Reports - get DataTables
+21[DONE]: CHANGE: KOT Master - remove actionDelete, actionView and actionEdit button
+22: FEATURE: Create Waiter Master
+23: FEATURE: Kot Create  - add waiter to KOT

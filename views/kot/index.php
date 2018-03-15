@@ -13,7 +13,12 @@ use yii\widgets\Pjax;
         'columns' => [
             'kid',
             'timestamp',
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+            'visibleButtons' => [
+                'view' => Yii::$app->user->can('update'),
+                'update' => Yii::$app->user->can('update'),
+                'delete' => Yii::$app->user->can('update')
+            ]]
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

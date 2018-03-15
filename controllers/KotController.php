@@ -30,11 +30,7 @@ class KotController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $orders = $model->orders;
-        foreach ($orders as $order) {
-          $order->flag = 'false';
-          $order->save();
-        }
+        $model->deleteAllOrders();
         $model->flag = 'false';
         $model->save();
         return $this->redirect(['index']);
@@ -81,35 +77,37 @@ class KotController extends Controller
     {
       $kot = Kot::findOne($id);
       $orders = $kot->getAllOrders();
-
         return $this->render('view_kot',[
           'orders' => $orders,
           'kot' => $kot
         ]);
-
     }
 
     public function actionUpdate($id)
     {
         $kot = $this->findModel($id);
         $orders = $kot->getAllOrders();
-        $formOrders = new Orders();
-
-        if ($formOrders->load(Yii::$app->request->post())) {
-          $orderArray = Orders::updateOrders($formOrders, $orders);
-          try{
-            Kot::printKot($kot, $orderArray);
+          $formOrders = new Orders();
+          if ($formOrders->load(Yii::$app->request->post())) {
+            $orderArray = Orders::updateOrders($formOrders, $orders);
+            try{
+              Kot::printKot($kot, $orderArray);
+              }
+            catch(yii\Base\ErrorException $e) {
+               // print not conected
+            }
+            if($kot->isEmpty()){
+              $kot->deleteAllOrders();
+              $kot->flag = 'false';
+              $kot->save();
+            }
+            return $this->redirect(['site/index']);
+          } else {
+              return $this->render('edit_kot', [
+                  'orders' => $orders,
+                  'kot' => $kot
+              ]);
           }
-          catch(yii\Base\ErrorException $e) {
-             // print not conected
-          }
-          return $this->redirect(['site/index']);
-        } else {
-            return $this->render('edit_kot', [
-                'orders' => $orders,
-                'kot' => $kot
-            ]);
-        }
     }
 
     protected function findModel($id)
