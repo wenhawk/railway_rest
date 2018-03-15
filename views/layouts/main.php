@@ -63,7 +63,7 @@ AppAsset::register($this);
             ['label' => 'BILLS', 'url' => ['bill/index']],
             ['label' => 'ITEM', 'url' => ['/item/index']],
             ['label' => 'TABLE', 'url' => ['/r-table/index']],
-
+            ['label' => 'WAITER', 'url' => ['/waiter/index']],
         ],
     ]);
     NavBar::end();

@@ -19,5 +19,6 @@
 19. FEATURE: Kot Print - Print all Kots at the end of the days
 20. FEATURE: View Reports - get DataTables
 21[DONE]: CHANGE: KOT Master - remove actionDelete, actionView and actionEdit button
-22: FEATURE: Create Waiter Master
+22[DONE]: FEATURE: Create Waiter Master
 23: FEATURE: Kot Create  - add waiter to KOT
+24: CHANGE: Kot View/Update  - show waiter in KOT
