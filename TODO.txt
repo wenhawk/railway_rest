@@ -1,6 +1,6 @@
 1.  FEATURE: Report - Implement Reports
-2.  FEATURE: KOT Master - Delete KOT
-3.  FEATURE: Bill Master - Delete Bill
+2[DONE].  FEATURE: KOT Master - Delete KOT
+3[DONE].  FEATURE: Bill Master - Delete Bill
 4[DONE].  CHANGE:  Bill Master -  orderd by bid and pageinate set to 10
 5.  FEATURE: Bill Master - GridView search by table name
 6[DONE].  CHANGE:  Table Master - remove actionView button

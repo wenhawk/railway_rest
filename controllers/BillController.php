@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Bill;
 use app\models\BillKot;
+use app\models\Kot;
 use app\models\RTable;
 use app\models\Orders;
 use app\models\SearchBill;
@@ -95,8 +96,18 @@ class BillController extends Controller
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $billKots = $model->billKots;
+        foreach ($billKots as $billKot) {
+          $kot = Kot::findOne($billKot->kid);
+          $orders = $kot->orders;
+            foreach ($orders as $order) {
+              $order->delete();
+            }
+          $billKot->delete();
+          $kot->delete();
+        }
+        $model->delete();
         return $this->redirect(['index']);
     }
 
