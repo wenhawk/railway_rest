@@ -15,7 +15,7 @@ class SearchBill extends Bill
     {
         return [
             [['bid', 'discount', 'amount'], 'integer'],
-            [['timestamp', 'payment_mode','gst','tax'], 'safe'],
+            [['timestamp', 'payment_mode','gst','tax','discount_amount','total_amount'], 'safe'],
         ];
     }
 
@@ -51,9 +51,10 @@ class SearchBill extends Bill
             'bid' => $this->bid,
             'tax' => $this->tax,
             'gst' => $this->gst,
+            'total_amount' => $this->total_amount,
+            'discount_amount' => $this->discount_amount,
             'timestamp' => $this->timestamp,
             'discount' => $this->discount,
-            'amount' => $this->amount,
         ]);
 
         $query->andFilterWhere(['like', 'payment_mode', $this->payment_mode]);

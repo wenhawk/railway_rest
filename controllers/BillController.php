@@ -7,6 +7,7 @@ use app\models\Bill;
 use app\models\BillKot;
 use app\models\Kot;
 use app\models\RTable;
+use app\models\Tax;
 use app\models\Orders;
 use app\models\SearchBill;
 use yii\web\Controller;
@@ -64,7 +65,9 @@ class BillController extends Controller
         $orders = $table->getOrdersNotBilled()->joinWith('item')->all();
         if($orders){
           $orders = Orders::mergeIdenticalOrders($orders);
+          $tax = Tax::find()->one();
           $amount = $table->calculateBillTotal();
+          $total_amount = $amount + ( $amount * ($tax->value/100));
           if ($bill->load(Yii::$app->request->post())) {
               $bill->generateBill($table, $amount);
               return $this->redirect(['site/index']);
@@ -73,7 +76,7 @@ class BillController extends Controller
                   'bill' => $bill,
                   'orders' => $orders,
                   'table' => $table,
-                  'amount' => $amount
+                  'amount' => $total_amount
               ]);
           }
         }

@@ -18,9 +18,9 @@ class Bill extends \yii\db\ActiveRecord
     {
         return [
             [['timestamp','print'], 'safe'],
-            [['payment_mode','discount','gst','tax'], 'required'],
+            [['payment_mode','discount','gst','tax','discount_amount','total_amount'], 'required'],
             [['payment_mode','print'], 'string'],
-            [['discount', 'amount','gst','tax'], 'integer'],
+            [['discount', 'amount','gst','tax','discount_amount','total_amount'], 'integer'],
             [['timestamp'], 'unique'],
         ];
     }
@@ -50,6 +50,8 @@ class Bill extends \yii\db\ActiveRecord
       $this->gst = $tax->value;
       $this->amount = $amount;
       $this->tax = $amount * ($tax->value/100);
+      $this->total_amount = $this->amount + $this->tax;
+      $this->discount_amount = $this->total_amount * ($this->discount/100);
       $this->save();
       $kots = $table->getKotNotBilled();
       foreach ($kots as $kot) {
