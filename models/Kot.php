@@ -3,6 +3,7 @@
 namespace app\models;
 use app\models\Waiter;
 use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Yii;
 
@@ -81,6 +82,7 @@ class Kot extends \yii\db\ActiveRecord
 
     public static function printKot($kid, $orders,$waiter){
               if(!sizeof($orders)==0){
+                // $connector = new NetworkPrintConnector("10.x.x.x", 9100);
                 $connector = new FilePrintConnector("/dev/usb/lp0");
                 $printer = new Printer($connector);
                 $printer -> setEmphasis(true);

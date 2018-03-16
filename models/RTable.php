@@ -42,6 +42,7 @@ class RTable extends \yii\db\ActiveRecord
     }
 
 
+
     public function calculateBillTotal() {
       $orders = $this->getOrdersNotBilled();
       $orders = $orders->joinWith('item')->all();
@@ -55,7 +56,8 @@ class RTable extends \yii\db\ActiveRecord
     public function getKotNotBilled() {
       $orders = $this->getOrdersNotBilled();
       $orders = $orders->joinWith('kot')
-                ->groupBy('kid')->all();
+                ->andWhere(['kot.flag'=>'true'])
+                ->groupBy('kot.kid')->all();
       $kots = [];
       foreach ($orders as $order) {
         array_push($kots, $order->kot);

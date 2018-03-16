@@ -4,7 +4,7 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use app\Models\Waiter;
 
-$waiters = Waiter::find()->where(['<>','wid',$waiter->wid])->all();
+$waiters = Waiter::find()->where(['<>','wid',$waiter->wid])->andWhere(['flag'=>'true'])->all();
 
 ?>
 <div class="container">

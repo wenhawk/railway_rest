@@ -88,88 +88,88 @@ class Bill extends \yii\db\ActiveRecord
 
     public function printBill($orders){
         $connector = new FilePrintConnector("/dev/usb/lp0");
-                $tax = Tax::find()->one();
-                $printer = new Printer($connector);
-                $printer -> setEmphasis(true);
-                $printer-> setTextSize(2,2);
-                $printer-> setJustification(Printer::JUSTIFY_CENTER);
-                $printer -> text('Margao Central\'s');
-                $printer -> feed(1);
-                $printer -> setEmphasis(false);
-                $printer-> setTextSize(1,1);
-                $printer -> setFont(Printer::FONT_A);
-                $printer -> text('C/o Konkan Railway Corporation Limited');
-                $printer -> feed(1);
-                $printer -> text('New Rawanfond Circle, Margao');
-                $printer -> feed(1);
-                $printer -> text('Goa - xxxxxx,');
-                $printer -> feed(1);
-                $printer -> text('PH: +91 xxxxxxxxxx');
-                $printer -> feed(1);
-                $printer -> text('GSTIN: xxxxxxxxxx');
-                $printer -> feed(1);
-                $printer -> text($orders[0]->table->name.'   '.date("Y-d-m H:i:s"));
-                $printer -> feed(1);
-                $printer -> text("BILL ID: ".$this->bid." Waiter: ".$orders[0]->kot->waiter->name);
-                $printer -> feed(1);
-                $printer -> setEmphasis(true);
-                $printer -> setFont(Printer::FONT_A);
-                $printer -> feed(1);
-                $printer-> setJustification(Printer::JUSTIFY_LEFT);
-                $printer -> text(' _______________________________________________');
-                $printer -> feed(1);
-                $printer-> setJustification(Printer::JUSTIFY_LEFT);
-                $printer -> text(' Item                            Qt  Rate    Amt');
-                $printer -> text(' _______________________________________________');
-                $printer -> setEmphasis(false);
-                for($i = 0; $i < sizeof($orders); $i++){
-                  $printer -> text(' ');
-                  $itemName = $orders[$i]->item->name;
-                  $quantity = $orders[$i]->quantity;
-                  $quantityLength = strlen($quantity);
-                  $cost = $orders[$i]->item->cost;
-                  $costLength = strlen($cost);
-                  $total = $quantity * $cost;
-                  $totalLength = strlen($total);
-                  $itemLength = strlen($itemName);
-                  $printer -> text($itemName);
-                  for($j = 0; $j < (31-$itemLength); $j++){
-                    $printer -> text(' ');
-                  }
-                  $printer -> text(' ');
-                  for($j = 0; $j < (2-$quantityLength); $j++){
-                    $printer -> text(' ');
-                  }
-                  $printer -> text($quantity);
-                  $printer -> text('  ');
-                  for($j = 0; $j < (4-$costLength); $j++){
-                    $printer -> text(' ');
-                  }
-                  $printer -> text($cost);
-                  $printer -> text(' ');
-                  for($j = 0; $j < (6-$totalLength); $j++){
-                    $printer -> text(' ');
-                  }
-                  $printer -> text($total);
-                  $printer -> feed(1);
-                }
-                $printer -> text(' _______________________________________________');
-                $printer -> feed(1);
-                $printer -> feed(1);
-                $printer -> text('      TOTAL                          + '.$this->amount);
-                $printer -> feed(1);
-                $printer -> text('      CGST   @2.5                    + '.$this->tax/2);
-                $printer -> feed(1);
-                $printer -> text('      SGST   @2.5                    + '.$this->tax/2);
-                $printer -> feed(1);
-                $printer -> text('      Discount                       - '.$this->discount_amount);
-                $printer -> feed(1);
-                $printer -> setEmphasis(true);
-                $printer-> setTextSize(1,1);
-                $printer -> text('      GRAND TOTAL                      '.$this->total_amount);
-                $printer -> feed(1);
-                $printer -> feed(1);
-                $printer -> feed(1);
+        $tax = Tax::find()->one();
+        $printer = new Printer($connector);
+        $printer -> setEmphasis(true);
+        $printer-> setTextSize(2,2);
+        $printer-> setJustification(Printer::JUSTIFY_CENTER);
+        $printer -> text('Margao Central\'s');
+        $printer -> feed(1);
+        $printer -> setEmphasis(false);
+        $printer-> setTextSize(1,1);
+        $printer -> setFont(Printer::FONT_A);
+        $printer -> text('C/o Konkan Railway Corporation Limited');
+        $printer -> feed(1);
+        $printer -> text('New Rawanfond Circle, Margao');
+        $printer -> feed(1);
+        $printer -> text('Goa - xxxxxx,');
+        $printer -> feed(1);
+        $printer -> text('PH: +91 xxxxxxxxxx');
+        $printer -> feed(1);
+        $printer -> text('GSTIN: xxxxxxxxxx');
+        $printer -> feed(1);
+        $printer -> text($orders[0]->table->name.'   '.date("Y-d-m H:i:s"));
+        $printer -> feed(1);
+        $printer -> text("BILL ID: ".$this->bid." Waiter: ".$orders[0]->kot->waiter->name);
+        $printer -> feed(1);
+        $printer -> setEmphasis(true);
+        $printer -> setFont(Printer::FONT_A);
+        $printer -> feed(1);
+        $printer-> setJustification(Printer::JUSTIFY_LEFT);
+        $printer -> text(' _______________________________________________');
+        $printer -> feed(1);
+        $printer-> setJustification(Printer::JUSTIFY_LEFT);
+        $printer -> text(' Item                            Qt  Rate    Amt');
+        $printer -> text(' _______________________________________________');
+        $printer -> setEmphasis(false);
+        for($i = 0; $i < sizeof($orders); $i++){
+          $printer -> text(' ');
+          $itemName = $orders[$i]->item->name;
+          $quantity = $orders[$i]->quantity;
+          $quantityLength = strlen($quantity);
+          $cost = $orders[$i]->item->cost;
+          $costLength = strlen($cost);
+          $total = $quantity * $cost;
+          $totalLength = strlen($total);
+          $itemLength = strlen($itemName);
+          $printer -> text($itemName);
+          for($j = 0; $j < (31-$itemLength); $j++){
+            $printer -> text(' ');
+          }
+          $printer -> text(' ');
+          for($j = 0; $j < (2-$quantityLength); $j++){
+            $printer -> text(' ');
+          }
+          $printer -> text($quantity);
+          $printer -> text('  ');
+          for($j = 0; $j < (4-$costLength); $j++){
+            $printer -> text(' ');
+          }
+          $printer -> text($cost);
+          $printer -> text(' ');
+          for($j = 0; $j < (6-$totalLength); $j++){
+            $printer -> text(' ');
+          }
+          $printer -> text($total);
+          $printer -> feed(1);
+        }
+        $printer -> text(' _______________________________________________');
+        $printer -> feed(1);
+        $printer -> feed(1);
+        $printer -> text('      TOTAL                          + '.$this->amount);
+        $printer -> feed(1);
+        $printer -> text('      CGST   @2.5                    + '.$this->tax/2);
+        $printer -> feed(1);
+        $printer -> text('      SGST   @2.5                    + '.$this->tax/2);
+        $printer -> feed(1);
+        $printer -> text('      Discount                       - '.$this->discount_amount);
+        $printer -> feed(1);
+        $printer -> setEmphasis(true);
+        $printer-> setTextSize(1,1);
+        $printer -> text('      GRAND TOTAL                      '.$this->total_amount);
+        $printer -> feed(1);
+        $printer -> feed(1);
+        $printer -> feed(1);
         $printer -> cut();
         $printer->close();
 

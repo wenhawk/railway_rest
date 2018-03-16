@@ -28,5 +28,6 @@
 28[DONE]. CHANGE: Bill Master - added discount_amount and total_amount to Bill Model
 29[DONE]. CHANGE: Waiter Master - add flag to waiter
 30[HIGH]. CODE CLEANUP: Project
-31[HIGH]. Kot Update: update message
-31[DONE]. Bill Print: waiter name on the bill
+31[HIGH]. CHANGE: Kot Update - update message
+31[DONE]. CHANGE: Bill Print - waiter name on the bill
+32[HIGH]. FEATURE: View Kots - view all kots with orders
