@@ -110,7 +110,7 @@ class Bill extends \yii\db\ActiveRecord
                 $printer -> feed(1);
                 $printer -> text($orders[0]->table->name.'   '.date("Y-d-m H:i:s"));
                 $printer -> feed(1);
-                $printer -> text("BILL ID: ".$this->bid." Waiter:");
+                $printer -> text("BILL ID: ".$this->bid." Waiter: ".$orders[0]->kot->waiter->name);
                 $printer -> feed(1);
                 $printer -> setEmphasis(true);
                 $printer -> setFont(Printer::FONT_A);

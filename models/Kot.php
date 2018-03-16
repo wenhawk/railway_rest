@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use app\models\Waiter;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Yii;
@@ -94,7 +95,7 @@ class Kot extends \yii\db\ActiveRecord
                 foreach($orders as $order){
                      $printer -> setEmphasis(false);
                      if($order->flag == 'true'){
-                       $printer -> text($order->item->name.' x '.$order->quantity);
+                       $printer -> text($order->item->name.' x '.$order->quantity.' '.$order->message);
                      }
                      else{
                        $printer -> text($order->item->name.' x '.$order->quantity.' CANCLE');
@@ -119,6 +120,11 @@ class Kot extends \yii\db\ActiveRecord
     public function getOrders()
     {
         return $this->hasMany(Orders::className(), ['kid' => 'kid']);
+    }
+
+    public function getWaiter()
+    {
+        return $this->hasOne(Waiter::className(), ['wid' => 'wid']);
     }
 
     public function getTable()

@@ -126,10 +126,9 @@ class BillController extends Controller
         $bill->printBill($orders);
         }
         catch(yii\Base\ErrorException $e) {
-           echo ''.$e;
-           // Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
+            Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
         }
-      // return $this->redirect(['site/index']);
+       return $this->redirect(['site/index']);
     }
 
     public function actionDelete($id)

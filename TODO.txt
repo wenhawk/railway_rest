@@ -15,7 +15,7 @@
 15[DONE]. FEATURE: Bill View - view bill
 16[DONE]. FEATURE: Bill Update - update bill
 17[DONE]. FEATURE: Bill Model - add new field called GST and calculate the bill amount with GST
-18[HIGH]. FEATURE: Bill Print - Print Bill with GST
+18[DONE]. FEATURE: Bill Print - Print Bill with GST
 19[MED]. FEATURE: Kot Print - Print all Kots at the end of the days
 20[LOW]. FEATURE: View Reports - implement DataTables
 21[DONE]. CHANGE: KOT Master - remove	 actionDelete, actionView and actionEdit button
@@ -28,3 +28,5 @@
 28[DONE]. CHANGE: Bill Master - added discount_amount and total_amount to Bill Model
 29[DONE]. CHANGE: Waiter Master - add flag to waiter
 30[HIGH]. CODE CLEANUP: Project
+31[HIGH]. Kot Update: update message
+31[DONE]. Bill Print: waiter name on the bill
