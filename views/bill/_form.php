@@ -12,13 +12,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'timestamp')->textInput() ?>
-
-    <?= $form->field($model, 'payment_mode')->dropDownList([ 'cash' => 'Cash', 'card' => 'Card', 'credit' => 'Credit', ], ['prompt' => '']) ?>
+    <div class="form-group field-bill-payment_mode required">
+<label class="control-label" for="bill-payment_mode">Payment Mode</label>
+<select id="bill-payment_mode" class="form-control" name="Bill[payment_mode]" aria-required="true">
+<option value="<?= $model->payment_mode ?>"><?=$model->payment_mode?></option>
+<option value="card">Card</option>
+<option value="card">Cash</option>
+<option value="credit">Credit</option>
+</select>
 
     <?= $form->field($model, 'discount')->textInput() ?>
 
-    <?= $form->field($model, 'amount')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

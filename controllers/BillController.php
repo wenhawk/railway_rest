@@ -50,11 +50,14 @@ class BillController extends Controller
                                ->all();
         $orders = Orders::mergeIdenticalOrders($orders);
         $table = RTable::findOne($orders[0]->tid);
-        return $this->render('create', [
+        return $this->render('view', [
+            'discount' => $bill->discount_amount,
+            'tax' => $bill->tax,
+            'amount' => $bill->amount,
             'bill' => $bill,
             'orders' => $orders,
             'table' => $table,
-            'amount' => $bill->amount
+            'total_amount' => $bill->total_amount
         ]);
     }
 
@@ -70,6 +73,7 @@ class BillController extends Controller
           $total_amount = $amount + ( $amount * ($tax->value/100));
           if ($bill->load(Yii::$app->request->post())) {
               $bill->generateBill($table, $amount);
+              //TODO print code
               return $this->redirect(['site/index']);
           } else {
               return $this->render('create', [
@@ -90,13 +94,31 @@ class BillController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->bid]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->total_amount = $model->amount + $model->tax;
+            $model->discount_amount = round($model->total_amount * ($model->discount/100));
+            $model->total_amount = round($model->total_amount - $model->discount_amount);
+            $model->save();
+            return $this->redirect(['bill/view','id'=>$id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionPrint($id)
+    {
+      $bill = Bill::findOne($id);
+      $orders = Orders::find()->where(['in','orders.kid',BillKot::find()
+                             ->where(['bid'=>$id])->select('kid')])
+                             ->andWhere(['flag'=>'true'])
+                             ->orderBy(['iid'=>SORT_DESC])
+                             ->all();
+      $orders = Orders::mergeIdenticalOrders($orders);
+      $table = RTable::findOne($orders[0]->tid);
+      //TODO print code
+      return $this->redirect(['site/index']);
     }
 
     public function actionDelete($id)
