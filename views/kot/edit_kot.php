@@ -1,5 +1,11 @@
 <?php
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use app\Models\Waiter;
+
+$waiters = Waiter::find()->where(['<>','wid',$waiter->wid])->all();
+
 ?>
 <div class="container">
   <div class="row">
@@ -9,15 +15,25 @@ use yii\widgets\ActiveForm;
     <div class="col-md-4">
       <h2>&nbsp</h2>
     </div>
+    <?php $form = ActiveForm::begin(); ?>
     <div class="col-md-4">
-      <h3> Waiter: <?= $waiter->name ?></h3>
+      <div class="form-group field-waiter-name required">
+      <div class="kv-plugin-loading loading-waiter-name">&nbsp;</div><select id="waiter-name" class="form-control" name="Waiter[name]" onChange="selectOnChange()" aria-required="true" data-s2-options="s2options_d6851687" data-krajee-select2="select2_c9724452" >
+      <option value="<?= $waiter->wid ?>"><?= $waiter->name ?></option>
+      <?php foreach($waiters as $waiter){ ?>
+      <option value="<?= $waiter->wid ?>"><?= $waiter->name ?></option>
+      <? } ?>
+      </select>
+
+      <div class="help-block"></div>
+      </div>
     </div>
   </div>
   <table class="table ">
       <th>Item</th>
       <th>Quantity</th>
       <th>Status</th>
-      <?php $form = ActiveForm::begin(); ?>
+
         <?php foreach($orders as $order) { ?>
         <tr>
           <td>

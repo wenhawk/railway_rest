@@ -71,8 +71,18 @@ class Bill extends \yii\db\ActiveRecord
     public function getTable()
     {
         $kots = $this->kots;
-        $orders = $kots[0]->orders;
-        return $orders[0]->table->name;
+        $table = null;
+        foreach ($kots as $kot) {
+          $orders = $kot->orders;
+          foreach ($orders as $order) {
+            $table = $order->table;
+          }
+        }
+        if($table){
+          return $table->name;
+        }else{
+          return 'NONE';
+        }
     }
 
     public static function calculateBillTotal($startDate,$endDate,$column){

@@ -22,7 +22,7 @@
 22[DONE]. FEATURE: Create Waiter Master
 23[DONE]. FEATURE: Kot Create  - add waiter to KOT
 24[DONE]. CHANGE: Kot View/Update  - show waiter in KOT
-25. CHANGE: Kot Update  - Update KOT
+25[DONE]. CHANGE: Kot Update  - Update KOT with Waiter
 26. FEATURE: Kot Print  - Print to networked printer
 27[DONE]. FEATURE: Reports - Show GST total in reports
 28[DONE]. CHANGE: Bill Master - added discount_amount and total_amount to Bill Model

@@ -92,10 +92,13 @@ class KotController extends Controller
     {
         $kot = $this->findModel($id);
         $waiter = Waiter::findOne($kot->wid);
+        $waiterModel = new Waiter();
         $orders = $kot->getAllOrders();
           $formOrders = new Orders();
-          if ($formOrders->load(Yii::$app->request->post())) {
+          if ($formOrders->load(Yii::$app->request->post()) && $waiterModel->load(Yii::$app->request->post())) {
             $orderArray = Orders::updateOrders($formOrders, $orders);
+            $kot->wid = $waiterModel->name;
+            $kot->save();
             try{
               Kot::printKot($kot, $orderArray);
               }
