@@ -73,7 +73,12 @@ class BillController extends Controller
           $total_amount = round($amount + ( $amount * ($tax->value/100)));
           if ($bill->load(Yii::$app->request->post())) {
               $bill->generateBill($table, $amount);
-              //TODO print code
+              try{
+                $bill->printBill($orders);
+                }
+                catch(yii\Base\ErrorException $e) {
+                   Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
+                }
               return $this->redirect(['site/index']);
           } else {
               return $this->render('create', [
@@ -117,8 +122,14 @@ class BillController extends Controller
                              ->all();
       $orders = Orders::mergeIdenticalOrders($orders);
       $table = RTable::findOne($orders[0]->tid);
-      //TODO print code
-      return $this->redirect(['site/index']);
+      try{
+        $bill->printBill($orders);
+        }
+        catch(yii\Base\ErrorException $e) {
+           echo ''.$e;
+           // Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
+        }
+      // return $this->redirect(['site/index']);
     }
 
     public function actionDelete($id)

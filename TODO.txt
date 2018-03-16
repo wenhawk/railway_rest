@@ -7,7 +7,7 @@
 7[DONE].  FEATURE: Table Master - Delete Table
 8[DONE].  CHANGE:  Item Master - remove actionView Button, remove Flag column and show item only with Flag = True
 9[DONE].  CHANGE:  Update Item - change the title to Update <table name>
-10[HIGH]. FEATURE: Bill Print - print the bill with discount and address of the restaurant
+10[DONE]. FEATURE: Bill Print - print the bill with discount and address of the restaurant
 11[DONE]. CHANGE: Kot Update - remove debuging statements
 12[MED]. FEATURE: Kot Generate - make adding of the items keyboard friendly
 13[DONE]. CHANGE: Index - remove the Active/Delete dropdown box
@@ -18,7 +18,7 @@
 18[HIGH]. FEATURE: Bill Print - Print Bill with GST
 19[MED]. FEATURE: Kot Print - Print all Kots at the end of the days
 20[LOW]. FEATURE: View Reports - implement DataTables
-21[DONE]. CHANGE: KOT Master - remove actionDelete, actionView and actionEdit button
+21[DONE]. CHANGE: KOT Master - remove	 actionDelete, actionView and actionEdit button
 22[DONE]. FEATURE: Create Waiter Master
 23[DONE]. FEATURE: Kot Create  - add waiter to KOT
 24[DONE]. CHANGE: Kot View/Update  - show waiter in KOT
