@@ -78,18 +78,19 @@ class Kot extends \yii\db\ActiveRecord
       return $orders;
     }
 
-    public static function printKot($kid, $orders){
+    public static function printKot($kid, $orders,$waiter){
               if(!sizeof($orders)==0){
                 $connector = new FilePrintConnector("/dev/usb/lp0");
                 $printer = new Printer($connector);
                 $printer -> setEmphasis(true);
                 $printer-> setTextSize(2,2);
-                $printer -> feed(4);
-                $printer -> text('KOT ID: '.$orders[0]->kid);
+                $printer -> feed(2);
+                $printer -> text('ID: '.$orders[0]->kid.' '.$orders[0]->table->name);
                 $printer -> feed(1);
-                $printer -> text($orders[0]->table->name);
+                $printer -> text(''.$waiter->name);
                 $printer -> feed(1);
-                $printer-> setTextSize(1,2);
+                $printer-> setTextSize(2,1);
+                $printer -> feed(1);
                 foreach($orders as $order){
                      $printer -> setEmphasis(false);
                      if($order->flag == 'true'){

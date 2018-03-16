@@ -5,10 +5,11 @@ namespace app\models;
 use Yii;
 use app\models\BillKot;
 use app\models\Tax;
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
 class Bill extends \yii\db\ActiveRecord
 {
-    public $print;
     public static function tableName()
     {
         return 'bill';
@@ -17,9 +18,9 @@ class Bill extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['timestamp','print'], 'safe'],
+            [['timestamp'], 'safe'],
             [['payment_mode','discount','gst','tax','discount_amount','total_amount'], 'required'],
-            [['payment_mode','print'], 'string'],
+            [['payment_mode'], 'string'],
             [['discount', 'amount','gst','tax','discount_amount','total_amount'], 'integer'],
             [['timestamp'], 'unique'],
         ];
@@ -49,9 +50,9 @@ class Bill extends \yii\db\ActiveRecord
       $tax = Tax::find()->one();
       $this->gst = $tax->value;
       $this->amount = $amount;
-      $this->tax = $amount * ($tax->value/100);
-      $this->total_amount = $this->amount + $this->tax;
-      $this->discount_amount = $this->total_amount * ($this->discount/100);
+      $this->tax = round($amount * ($tax->value/100));
+      $this->total_amount = round($this->amount + $this->tax);
+      $this->discount_amount = round($this->total_amount * ($this->discount/100));
       $this->save();
       $kots = $table->getKotNotBilled();
       foreach ($kots as $kot) {
@@ -83,6 +84,34 @@ class Bill extends \yii\db\ActiveRecord
         }else{
           return 'NONE';
         }
+    }
+
+    public function printBill($bill){
+      if($bill){
+        $connector = new FilePrintConnector("/dev/usb/lp0");
+        $printer = new Printer($connector);
+        $printer -> setEmphasis(true);
+        $printer-> setTextSize(2,2);
+        $printer -> feed(2);
+        $printer -> text('ID: '.$orders[0]->kid.' '.$orders[0]->table->name);
+        $printer -> feed(1);
+        $printer -> text(''.$waiter->name);
+        $printer -> feed(1);
+        $printer-> setTextSize(2,1);
+        $printer -> feed(1);
+        foreach($orders as $order){
+             $printer -> setEmphasis(false);
+             if($order->flag == 'true'){
+               $printer -> text($order->item->name.' x '.$order->quantity);
+             }
+             else{
+               $printer -> text($order->item->name.' x '.$order->quantity.' CANCLE');
+             }
+             $printer -> feed(1);
+        }
+        $printer -> cut();
+        $printer->close();
+      }
     }
 
     public static function calculateBillTotal($startDate,$endDate,$column){

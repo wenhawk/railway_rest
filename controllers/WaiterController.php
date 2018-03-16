@@ -101,8 +101,9 @@ class WaiterController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = Waiter::findOne($id);
+        $model->flag = 'false';
+        $model->save();
         return $this->redirect(['index']);
     }
 

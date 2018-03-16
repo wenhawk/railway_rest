@@ -27,8 +27,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($bill, 'payment_mode')->dropDownList([ 'cash' => 'CASH', 'card' => 'Card','credit' => 'Credit' ]) ?>
         </td>
         <td>
-           <?= $form->field($bill, 'print')->dropDownList([ 'yes' => 'YES', 'no' => 'NO', ]) ?>
-        </td>
+           
         <td>
           <h2><?= $amount ?><h2>
         </td>

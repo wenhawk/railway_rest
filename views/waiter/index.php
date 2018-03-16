@@ -20,9 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'wid',
             'name',
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+            'visibleButtons' => [
+                'view' => Yii::$app->user->can('update'),
+            ]]
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

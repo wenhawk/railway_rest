@@ -24,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
           }
         },
         'columns' => [
-            'tid',
             'name',
             ['class' => 'yii\grid\ActionColumn',
             'visibleButtons' => [

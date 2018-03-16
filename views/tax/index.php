@@ -21,11 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'name',
             'value',
-
             ['class' => 'yii\grid\ActionColumn',
             'visibleButtons' => [
                 'view' => Yii::$app->user->can('update'),

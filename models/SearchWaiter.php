@@ -60,6 +60,7 @@ class SearchWaiter extends Waiter
         // grid filtering conditions
         $query->andFilterWhere([
             'wid' => $this->wid,
+            'flag' => 'true'
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

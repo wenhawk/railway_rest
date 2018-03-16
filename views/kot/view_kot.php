@@ -16,7 +16,6 @@
       <th>Cost</th>
       <th>Quantity</th>
       <th>Message</th>
-    <form class="" action="index.php?r=kot/print&amp;kid=<?= $kot->kid ?>" method="post">
       <?php foreach($orders as $order) { ?>
         <tr>
           <td><?= $order->item->name ?></td>
@@ -27,5 +26,4 @@
      <?php } ?>
   </table>
 </div>
-  <center><button class="btn btn-success" type="submit" name="button">PRINT</button><center>
-</form>
+<center><a href="index.php?r=kot/print&kid=<?= $kot->kid ?>" class="btn btn-success" >PRINT</a><center>

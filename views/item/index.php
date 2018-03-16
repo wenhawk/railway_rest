@@ -24,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn',
             'visibleButtons' => [
                 'view' => Yii::$app->user->can('update'),
-                'delete' => Yii::$app->user->can('update')
             ]]
         ],
     ]); ?>

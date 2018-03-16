@@ -100,10 +100,10 @@ class KotController extends Controller
             $kot->wid = $waiterModel->name;
             $kot->save();
             try{
-              Kot::printKot($kot, $orderArray);
+              Kot::printKot($kot, $orderArray,$waiter);
               }
             catch(yii\Base\ErrorException $e) {
-               // print not conected
+               Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
             }
             if($kot->isEmpty()){
               $kot->deleteAllOrders();
@@ -118,6 +118,20 @@ class KotController extends Controller
                   'waiter' => $waiter,
               ]);
           }
+    }
+
+    public function actionPrint($kid)
+    {
+        $kot = $this->findModel($kid);
+        $waiter = Waiter::findOne($kot->wid);
+        $orders = $kot->getAllOrders();
+        try{
+          Kot::printKot($kot, $orders,$waiter);
+          }
+          catch(yii\Base\ErrorException $e) {
+             Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
+          }
+        return $this->redirect(['site/index']);
     }
 
     protected function findModel($id)

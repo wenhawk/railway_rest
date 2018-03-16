@@ -73,6 +73,14 @@ AppAsset::register($this);
 </script>
     <div class="container-fluid">
     <div id = 'main-container' class = 'container'>
+
+    <?php if (Yii::$app->session->hasFlash('danger')): ?>
+    <div class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+    <?= Yii::$app->session->getFlash('danger') ?>
+    </div>
+  <?php endif; ?>
+
     <?= $content ?>
     </div>
     </div>

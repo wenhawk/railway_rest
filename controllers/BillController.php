@@ -70,7 +70,7 @@ class BillController extends Controller
           $orders = Orders::mergeIdenticalOrders($orders);
           $tax = Tax::find()->one();
           $amount = $table->calculateBillTotal();
-          $total_amount = $amount + ( $amount * ($tax->value/100));
+          $total_amount = round($amount + ( $amount * ($tax->value/100)));
           if ($bill->load(Yii::$app->request->post())) {
               $bill->generateBill($table, $amount);
               //TODO print code
