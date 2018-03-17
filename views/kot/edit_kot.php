@@ -45,6 +45,9 @@ $waiters = Waiter::find()->where(['<>','wid',$waiter->wid])->andWhere(['flag'=>'
             <input class="form-control" type="number" name="Orders[quantity][]" value="<?= $order->quantity ?>">
           </td>
           <td>
+            <?= $order->message ?>
+          </td>
+          <td>
             <select class="form-control" name="Orders[flag][]">
               <option value="true">ACTIVE</option>
               <option value="false">DELETE</option>

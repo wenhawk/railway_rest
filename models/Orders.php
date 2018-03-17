@@ -65,7 +65,7 @@ class Orders extends \yii\db\ActiveRecord
       $orders = $query->where('timestamp between \''.$startDate.'\' and \''.$endDate.'\'')
                       ->andWhere(['orders.flag'=>'true'])
                       ->orderBy(['iid'=>SORT_DESC])
-              ->all();
+                      ->all();
       $orders = Orders::mergeIdenticalOrders($orders);
       return $orders;
     }

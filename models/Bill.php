@@ -166,7 +166,7 @@ class Bill extends \yii\db\ActiveRecord
         $printer -> feed(1);
         $printer -> setEmphasis(true);
         $printer-> setTextSize(1,1);
-        $printer -> text('      GRAND TOTAL                      '.$this->total_amount);
+        $printer -> text('      GRAND TOTAL                   Rs '.$this->total_amount);
         $printer -> feed(1);
         $printer -> feed(1);
         $printer -> feed(1);

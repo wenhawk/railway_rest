@@ -100,7 +100,7 @@ class Kot extends \yii\db\ActiveRecord
                        $printer -> text($order->item->name.' x '.$order->quantity.' '.$order->message);
                      }
                      else{
-                       $printer -> text($order->item->name.' x '.$order->quantity.' CANCLE');
+                       $printer -> text($order->item->name.' x '.$order->quantity.' '.$order->message.' CANCLE');
                      }
                      $printer -> feed(1);
                 }
