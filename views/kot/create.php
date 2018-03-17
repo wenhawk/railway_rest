@@ -88,7 +88,9 @@ use app\models\Waiter;
     rowCount = 1;
 
     function selectOnChange(){
-      console.log('change');
+      p = document.getElementById('addButton');
+      p.focus();
+      console.log(p);
     }
 
     function addField (argument) {
@@ -186,8 +188,5 @@ use app\models\Waiter;
             rowCount++;
         }
 
-        function SomeDeleteRowFunction(o) {
-        var p=o.parentNode.parentNode;
-        }
 
     </script>

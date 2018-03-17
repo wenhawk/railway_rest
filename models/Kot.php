@@ -80,10 +80,9 @@ class Kot extends \yii\db\ActiveRecord
       return $orders;
     }
 
-    public static function printKot($kid, $orders,$waiter){
+    public static function printKot($kid, $orders,$waiter,$ip){
               if(!sizeof($orders)==0){
-                // $connector = new NetworkPrintConnector("10.x.x.x", 9100);
-                $connector = new FilePrintConnector("/dev/usb/lp0");
+                $connector = new NetworkPrintConnector($ip, 9100);
                 $printer = new Printer($connector);
                 $printer -> setEmphasis(true);
                 $printer-> setTextSize(2,2);

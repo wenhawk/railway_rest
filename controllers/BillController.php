@@ -74,10 +74,16 @@ class BillController extends Controller
           if ($bill->load(Yii::$app->request->post())) {
               $bill->generateBill($table, $amount);
               try{
-                $bill->printBill($orders);
+                  $tableName = $orders[0]->table->name;
+                  $subString = substr($tableName,0,6);
+                  if(strcasecmp($subString,'Table')){
+                    $bill->printBill($orders);
+                  }else{
+                    $bill->printBillForRetsol($orders);
+                  }
                 }
                 catch(yii\Base\ErrorException $e) {
-                   Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
+                   Yii::$app->session->setFlash('danger', ' '.$e);
                 }
               return $this->redirect(['site/index']);
           } else {
@@ -123,10 +129,16 @@ class BillController extends Controller
       $orders = Orders::mergeIdenticalOrders($orders);
       $table = RTable::findOne($orders[0]->tid);
       try{
-        $bill->printBill($orders);
+        $tableName = $orders[0]->table->name;
+        $subString = substr($tableName,0,6);
+        if(strcasecmp($subString,'Table')){
+          $bill->printBill($orders);
+        }else{
+          $bill->printBillForRetsol($orders);
+        }
         }
         catch(yii\Base\ErrorException $e) {
-            Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
+            Yii::$app->session->setFlash('danger', ' '.$e);
         }
        return $this->redirect(['site/index']);
     }

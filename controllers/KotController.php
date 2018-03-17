@@ -60,7 +60,7 @@ class KotController extends Controller
              $kot = Kot::createKot($order,$waiter);
              $orders = $kot->getAllOrders();
              try{
-               Kot::printKot($kot->kid, $orders);
+               Kot::printKot($kot->kid, $orders,'192.168.1.120');
              }
              catch(yii\Base\ErrorException $e) {
                 // print not conected
@@ -100,7 +100,7 @@ class KotController extends Controller
             $kot->wid = $waiterModel->name;
             $kot->save();
             try{
-              Kot::printKot($kot, $orderArray,$waiter);
+              Kot::printKot($kot->kid, $orders,'192.168.1.120');
               }
             catch(yii\Base\ErrorException $e) {
                Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
@@ -126,7 +126,7 @@ class KotController extends Controller
         $waiter = Waiter::findOne($kot->wid);
         $orders = $kot->getAllOrders();
         try{
-          Kot::printKot($kot, $orders,$waiter);
+          Kot::printKot($kot->kid, $orders,'192.168.1.120');
           }
           catch(yii\Base\ErrorException $e) {
              Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
