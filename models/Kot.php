@@ -37,7 +37,8 @@ class Kot extends \yii\db\ActiveRecord
     public static function createKot($order,$waiter){
       $kot = new Kot();
       $kot->flag = 'true';
-      $kot->timestamp = '';
+	  date_default_timezone_set('Asia/Kolkata');
+      $kot->timestamp = date('Y-m-d H:i:s');
       $kot->wid = $waiter->name;
       $kot->save();
       for ($i=0; $i < sizeof($order->iid); $i++) {
@@ -69,6 +70,16 @@ class Kot extends \yii\db\ActiveRecord
           $order->flag = 'false';
           $order->save();
         }
+    }
+
+    public static function makeKot($waiter){
+      $kot = new Kot();
+      $kot->flag = 'true';
+	    date_default_timezone_set('Asia/Kolkata');
+      $kot->timestamp = date('Y-m-d H:i:s');
+      $kot->wid = $waiter->wid;
+      $kot->save();
+      return $kot;
     }
 
     public function getAllOrders(){

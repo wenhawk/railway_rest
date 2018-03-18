@@ -33,7 +33,7 @@ use app\models\Waiter;
             <input id="tableaj-tid" class="form-control" name="Tableaj[tid]" value='<?= $table->tid ?>' type="hidden">
 
             <div class="col-md-5">
-            <? echo $form->field($item, 'name')->widget(Select2::classname(), [
+            <?php echo $form->field($item, 'name')->widget(Select2::classname(), [
             'data' =>  ArrayHelper::map(Item::find()->where(['flag'=>'true'])->all(), 'iid','name'),
             'language' => 'en',
             'options' =>
@@ -48,7 +48,7 @@ use app\models\Waiter;
             </div>
 
             <div class="col-md-2">
-            <? echo $form->field($waiter, 'name')->widget(Select2::classname(), [
+            <?php echo $form->field($waiter, 'name')->widget(Select2::classname(), [
             'data' =>  ArrayHelper::map(Waiter::find()->where(['flag'=>'true'])->all(), 'wid','name'),
             'language' => 'en',
             'options' =>

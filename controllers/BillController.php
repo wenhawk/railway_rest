@@ -40,6 +40,41 @@ class BillController extends Controller
         ]);
     }
 
+    public function actionSplitBill($tid)
+    {
+        $table = RTable::findOne($tid);
+        $orders = new Orders();
+        if($orders->load(Yii::$app->request->post())){
+          $oldKot = Kot::findOne($orders->kid[0]);
+          $waiter = $oldKot->waiter;
+          $kot = Kot::makeKot($waiter);
+          Orders::ShiftOrdersToNewKot($kot,$orders);
+          $orders = $kot->getAllOrders();
+          if($orders){
+            $orders = Orders::mergeIdenticalOrders($orders);
+            $amount = Orders::calcualteTotal($orders);
+            $bill = Bill::makeBill($kot,$amount);
+            return $this->render('view', [
+                'discount' => $bill->discount_amount,
+                'tax' => $bill->tax,
+                'amount' => $bill->amount,
+                'bill' => $bill,
+                'orders' => $orders,
+                'table' => $table,
+                'total_amount' => $bill->total_amount
+            ]);
+          }else{
+            return $this->redirect(['site/index']);
+          }
+        }else{
+          $orders = $table->getOrdersNotBilled()->all();
+          return $this->render('split_bill',[
+            'orders' => $orders,
+            'table' => $table
+          ]);
+        }
+    }
+
     public function actionView($id)
     {
         $bill = Bill::findOne($id);
@@ -76,10 +111,10 @@ class BillController extends Controller
               try{
                   $tableName = $orders[0]->table->name;
                   $subString = substr($tableName,0,6);
-                  if(strcasecmp($subString,'Table')){
+                  if(strcasecmp($subString,'Table') == 1){
                     $bill->printBill($orders);
                   }else{
-                    $bill->printBillForRetsol($orders);
+                    $bill->printBillForRetsol($orders,'192.168.1.121');
                   }
                 }
                 catch(yii\Base\ErrorException $e) {
@@ -131,10 +166,10 @@ class BillController extends Controller
       try{
         $tableName = $orders[0]->table->name;
         $subString = substr($tableName,0,6);
-        if(strcasecmp($subString,'Table')){
+        if(strcasecmp($subString,'Table') == 1){
           $bill->printBill($orders);
         }else{
-          $bill->printBillForRetsol($orders);
+          $bill->printBillForRetsol($orders,'192.168.1.121');
         }
         }
         catch(yii\Base\ErrorException $e) {

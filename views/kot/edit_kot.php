@@ -22,7 +22,7 @@ $waiters = Waiter::find()->where(['<>','wid',$waiter->wid])->andWhere(['flag'=>'
       <option value="<?= $waiter->wid ?>"><?= $waiter->name ?></option>
       <?php foreach($waiters as $waiter){ ?>
       <option value="<?= $waiter->wid ?>"><?= $waiter->name ?></option>
-      <? } ?>
+      <?php } ?>
       </select>
 
       <div class="help-block"></div>

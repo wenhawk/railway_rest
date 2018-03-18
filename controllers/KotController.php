@@ -59,12 +59,19 @@ class KotController extends Controller
         if ($order->load(Yii::$app->request->post()) && $waiter->load(Yii::$app->request->post())) {
              $kot = Kot::createKot($order,$waiter);
              $orders = $kot->getAllOrders();
-             try{
-               Kot::printKot($kot->kid, $orders,'192.168.1.120');
-             }
-             catch(yii\Base\ErrorException $e) {
-                // print not conected
-             }
+             // try{
+				     //      $tableName = $table->name;
+             //      $subString = substr($tableName,0,6);
+             //      if(strcasecmp($subString,'Table') == 1){
+             // 					Kot::printKot($kot->kid, $orders,$kot->waiter,'192.168.1.120');
+            	// 				Kot::printKot($kot->kid, $orders,$kot->waiter,'192.168.1.121');
+             //      }else{
+             //
+             //      }
+             // }
+             // catch(yii\Base\ErrorException $e) {
+             //     Yii::$app->session->setFlash('danger', ' '.$e);
+             // }
              return $this->redirect(['view', 'id' => $kot->kid]);
         } else {
             return $this->render('create', [
@@ -99,11 +106,55 @@ class KotController extends Controller
             $orderArray = Orders::updateOrders($formOrders, $orders);
             $kot->wid = $waiterModel->name;
             $kot->save();
+        //     try{
+			  // $tableName = $orders[0]->table->name;
+        //           $subString = substr($tableName,0,6);
+        //           if(strcasecmp($subString,'Table') == 1){
+ 				// 	Kot::printKot($kot->kid, $orderArray,$kot->waiter,'192.168.1.120');
+				// 	Kot::printKot($kot->kid, $orderArray,$kot->waiter,'192.168.1.121');
+        //           }else{
+        //           }
+        //       }
+        //     catch(yii\Base\ErrorException $e) {
+        //        Yii::$app->session->setFlash('danger', ' '.$e);
+        //     }
+            if($kot->isEmpty()){
+              $kot->deleteAllOrders();
+              $kot->flag = 'false';
+              $kot->save();
+            }
+            return $this->redirect(['site/index']);
+          } else {
+              return $this->render('edit_kot', [
+                  'orders' => $orders,
+                  'kot' => $kot,
+                  'waiter' => $waiter,
+              ]);
+          }
+    }
+
+    public function actionUpdateAndPrint($id)
+    {
+        $kot = $this->findModel($id);
+        $waiter = Waiter::findOne($kot->wid);
+        $waiterModel = new Waiter();
+        $orders = $kot->getAllOrders();
+          $formOrders = new Orders();
+          if ($formOrders->load(Yii::$app->request->post()) && $waiterModel->load(Yii::$app->request->post())) {
+            $orderArray = Orders::updateOrders($formOrders, $orders);
+            $kot->wid = $waiterModel->name;
+            $kot->save();
             try{
-              Kot::printKot($kot->kid, $orders,'192.168.1.120');
+			  $tableName = $orders[0]->table->name;
+                  $subString = substr($tableName,0,6);
+                  if(strcasecmp($subString,'Table') == 1){
+ 					Kot::printKot($kot->kid, $orderArray,$kot->waiter,'192.168.1.120');
+					Kot::printKot($kot->kid, $orderArray,$kot->waiter,'192.168.1.121');
+                  }else{
+                  }
               }
             catch(yii\Base\ErrorException $e) {
-               Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
+               Yii::$app->session->setFlash('danger', ' '.$e);
             }
             if($kot->isEmpty()){
               $kot->deleteAllOrders();
@@ -126,12 +177,19 @@ class KotController extends Controller
         $waiter = Waiter::findOne($kot->wid);
         $orders = $kot->getAllOrders();
         try{
-          Kot::printKot($kot->kid, $orders,'192.168.1.120');
+			$tableName = $orders[0]->table->name;
+                  $subString = substr($tableName,0,6);
+                  if(strcasecmp($subString,'Table') == 1){
+                    Kot::printKot($kot->kid, $orders,$kot->waiter,'192.168.1.120');
+					Kot::printKot($kot->kid, $orders,$kot->waiter,'192.168.1.121');
+                  }else{
+
+                  }
           }
           catch(yii\Base\ErrorException $e) {
-             Yii::$app->session->setFlash('danger', "PRINTER NOT CONNECTED");
+             Yii::$app->session->setFlash('danger', ' '.$e);
           }
-        return $this->redirect(['site/index']);
+        	return $this->redirect(['site/index']);
     }
 
     protected function findModel($id)

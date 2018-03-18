@@ -3,7 +3,7 @@
 
 <div class="container">
   <br>
-<h1><?= $orders[0]->table->name ?></h1>
+<h1><?= $table->name ?></h1>
   <table class="table ">
       <th>ITEM</th>
       <th>COST</th>

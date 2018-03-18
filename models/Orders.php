@@ -41,6 +41,30 @@ class Orders extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function ShiftOrdersToNewKot($kot,$orders){
+      for($i= 0 ; $i < sizeof($orders->iid); $i++){
+        $order = Orders::find()->where([
+          'kid' => $orders->kid[$i],
+          'rank' => $orders->rank[$i],
+          'iid' => $orders->iid[$i],
+        ])->one();
+        if($orders->flag[$i] == 'false'){
+          $newOrder = new Orders();
+          $newOrder->iid = $order->iid;
+          $newOrder->message = $order->message;
+          $newOrder->rank = $order->rank;
+          $newOrder->quantity = $order->quantity;
+          $newOrder->tid = $order->tid;
+          $newOrder->kid = $kot->kid;
+          $newOrder->flag = 'true';
+          $newOrder->status = 0;
+          $newOrder->save();
+          $order->flag = 'false';
+          $order->save();
+        }
+      }
+    }
+
     public static function mergeIdenticalOrders($orders) {
       $orderArray = [];
       if($orders){
@@ -57,6 +81,14 @@ class Orders extends \yii\db\ActiveRecord
         array_push($orderArray, $newOrder);
       }
       return $orderArray;
+    }
+
+    public static function calcualteTotal($orders){
+      $amount = 0;
+      foreach ($orders as $order) {
+          $amount = $amount + ($order->quantity * $order->item->cost);
+      }
+      return $amount;
     }
 
     public static function getAllOrders($startDate, $endDate){

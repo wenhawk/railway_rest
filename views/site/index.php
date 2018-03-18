@@ -16,7 +16,8 @@ $this->title = 'Restaurant';
       <td> <h4><a href="index.php?r=kot/create&amp;tid=<?=$table->tid ?>">TAKE ORDER</a></h4></td>
       <td> <h4><a href="index.php?r=bill/create&amp;tid=<?=$table->tid ?>">BILL</a></h4></td>
       <td> <h4><a href="index.php?r=r-table/view-kots&amp;tid=<?=$table->tid ?>">VIEW KOTs</a></h4></td>
+      <td> <h4><a href="index.php?r=bill/split-bill&amp;tid=<?=$table->tid ?>">SPLIT BILL</a></h4></td>
     </tr>
-  <? } ?>
+  <?php } ?>
   </table>
 </div>

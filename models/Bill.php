@@ -7,6 +7,8 @@ use app\models\BillKot;
 use app\models\Tax;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 
 class Bill extends \yii\db\ActiveRecord
 {
@@ -53,6 +55,8 @@ class Bill extends \yii\db\ActiveRecord
       $this->tax = round($amount * ($tax->value/100));
       $this->total_amount = round($this->amount + $this->tax);
       $this->discount_amount = round($this->total_amount * ($this->discount/100));
+	  date_default_timezone_set('Asia/Kolkata');
+      $this->timestamp = date('Y-m-d H:i:s');
       $this->save();
       $kots = $table->getKotNotBilled();
       foreach ($kots as $kot) {
@@ -62,6 +66,27 @@ class Bill extends \yii\db\ActiveRecord
         $bill_kot->flag = 'true';
         $bill_kot->save();
       }
+    }
+
+    public static function makeBill($kot,$amount){
+      $bill = new Bill();
+      $tax = Tax::find()->one();
+      $bill->gst = $tax->value;
+      $bill->amount = $amount;
+      $bill->payment_mode = 'cash';
+      $bill->discount = 0;
+      $bill->tax = round($amount * ($tax->value/100));
+      $bill->total_amount = round($bill->amount + $bill->tax);
+      $bill->discount_amount = round($bill->total_amount * ($bill->discount/100));
+	    date_default_timezone_set('Asia/Kolkata');
+      $bill->timestamp = date('Y-m-d H:i:s');
+      $bill->save();
+      $bill_kot = new BillKot();
+      $bill_kot->kid = $kot->kid;
+      $bill_kot->bid = $bill->bid;
+      $bill_kot->flag = 'true';
+      $bill_kot->save();
+      return $bill;
     }
 
     public function getBillKots()
@@ -87,29 +112,30 @@ class Bill extends \yii\db\ActiveRecord
     }
 
     public function printBill($orders){
-        $connector = new FilePrintConnector("/dev/usb/lp0");
+        // $connector = new FilePrintConnector("/dev/usb/lp0");
+        $connector = new WindowsPrintConnector("EPSON LX-310");
         $tax = Tax::find()->one();
         $printer = new Printer($connector);
         $printer -> setEmphasis(true);
         $printer-> setTextSize(2,2);
-        $printer -> text('                           Margao Central');
+        $printer -> text('                              Margao Central');
         $printer -> feed(1);
         $printer -> setEmphasis(false);
         $printer-> setTextSize(1,1);
         $printer -> setFont(Printer::FONT_A);
         $printer -> text('                         C/o Konkan Railway Corporation Limited');
         $printer -> feed(1);
-        $printer -> text('                             Near Rawanfond Circle, Margao');
+        $printer -> text('                               Near Rawanfond Circle, Margao');
         $printer -> feed(1);
-        $printer -> text('                                   Goa - 403601');
+        $printer -> text('                                     Goa - 403601');
         $printer -> feed(1);
-        $printer -> text('                                 PH: +91 9552592740');
+        $printer -> text('                                   PH: +91 9552592740');
         $printer -> feed(1);
-        $printer -> text('                                  GSTIN: xxxxxxxxxx');
+        $printer -> text('                                    GSTIN: xxxxxxxxxx');
         $printer -> feed(1);
-        $printer -> text('                             '.$orders[0]->table->name.'   '.date("Y-d-m H:i:s"));
+        $printer -> text('                               '.$orders[0]->table->name.'   '.date("Y-d-m H:i:s"));
         $printer -> feed(1);
-        $printer -> text("                             BILL ID: ".$this->bid." Waiter: ".$orders[0]->kot->waiter->name);
+        $printer -> text("                               BILL ID: ".$this->bid." Waiter: ".$orders[0]->kot->waiter->name);
         $printer -> feed(1);
         $printer -> setEmphasis(true);
         $printer -> setFont(Printer::FONT_A);
@@ -176,8 +202,8 @@ class Bill extends \yii\db\ActiveRecord
 
     }
 
-    public function printBillForRetsol($orders){
-        $connector = new FilePrintConnector("/dev/usb/lp0");
+    public function printBillForRetsol($orders,$ip){
+        $connector = new NetworkPrintConnector($ip, 9100);
         $tax = Tax::find()->one();
         $printer = new Printer($connector);
         $printer -> setEmphasis(true);
