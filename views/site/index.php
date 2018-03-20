@@ -7,7 +7,7 @@ $this->title = 'Restaurant';
 <div class="container">
   <table class="table">
   <?php foreach ($tables as $table) { ?>
-      <?php if($table->getOrdersNotBilled()->all()) { ?>
+      <?php if($table->getOrdersNotBilled()) { ?>
       <tr style="background-color:#FFE6E6;" >
       <?php } else { ?>
       <tr style="background-color:#E1FFE2;" >

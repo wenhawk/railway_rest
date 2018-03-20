@@ -57,21 +57,8 @@ class KotController extends Controller
         $table = RTable::findOne($tid);
 
         if ($order->load(Yii::$app->request->post()) && $waiter->load(Yii::$app->request->post())) {
-             $kot = Kot::createKot($order,$waiter);
-             $orders = $kot->getAllOrders();
-             // try{
-				     //      $tableName = $table->name;
-             //      $subString = substr($tableName,0,6);
-             //      if(strcasecmp($subString,'Table') == 1){
-             // 					Kot::printKot($kot->kid, $orders,$kot->waiter,'192.168.1.120');
-            	// 				Kot::printKot($kot->kid, $orders,$kot->waiter,'192.168.1.121');
-             //      }else{
-             //
-             //      }
-             // }
-             // catch(yii\Base\ErrorException $e) {
-             //     Yii::$app->session->setFlash('danger', ' '.$e);
-             // }
+             $kot = Kot::createKot($waiter->name);
+             Orders::createOrdersFormActiveForm($order,$kot);
              return $this->redirect(['view', 'id' => $kot->kid]);
         } else {
             return $this->render('create', [

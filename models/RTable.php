@@ -35,29 +35,27 @@ class RTable extends \yii\db\ActiveRecord
     public function getOrdersNotBilled() {
       $orders = Orders::find()
               ->where(['not in', 'orders.kid', BillKot::find()->select('kid')])
+              ->joinWith('item')
               ->andWhere(['orders.flag' => 'true'])
               ->andWhere(['orders.tid' => $this->tid ])
-              ->orderBy('iid');
+              ->orderBy('iid')
+              ->joinWith('item')
+              ->all();
       return $orders;
     }
 
-
-
-    public function calculateBillTotal() {
-      $orders = $this->getOrdersNotBilled();
-      $orders = $orders->joinWith('item')->all();
-      $cost = 0;
-      foreach ($orders as $order) {
-        $cost = $cost + ($order->item->cost * $order->quantity);
-      }
-      return $cost;
-    }
-
     public function getKotNotBilled() {
-      $orders = $this->getOrdersNotBilled();
-      $orders = $orders->joinWith('kot')
-                ->andWhere(['kot.flag'=>'true'])
-                ->groupBy('kot.kid')->all();
+      $orders = Orders::find()
+              ->where(['not in', 'orders.kid', BillKot::find()->select('kid')])
+              ->joinWith('item')
+              ->andWhere(['orders.flag' => 'true'])
+              ->andWhere(['orders.tid' => $this->tid ])
+              ->orderBy('iid')
+              ->joinWith('item')
+              ->joinWith('kot')
+              ->andWhere(['kot.flag'=>'true'])
+              ->groupBy('kot.kid')
+              ->all();
       $kots = [];
       foreach ($orders as $order) {
         array_push($kots, $order->kot);
@@ -65,9 +63,10 @@ class RTable extends \yii\db\ActiveRecord
       return $kots;
     }
 
-    public function createTable($name, $flag){
-      $this->name = $name;
-      $this->flag = $flag;
+    public static function  createTable($name, $flag){
+      $table = new RTable();
+      $table->name = $name;
+      $table->flag = $flag;
       $this->save();
     }
 

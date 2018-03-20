@@ -41,6 +41,24 @@ class Orders extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function createOrdersFormActiveForm($formOrder,$kot){
+      $orderArray = [];
+      $order = $formOrder;
+        for ($i=0; $i < sizeof($order->iid); $i++) {
+          $o = new Orders();
+          $o->iid = $order->iid[$i];
+          $o->tid = $order->tid[$i];
+          $o->kid = $kot->kid;
+          $o->message = $order->message[$i];
+          $o->quantity = $order->quantity[$i];
+          $o->rank = $order->rank[$i];
+          $o->flag = 'true';
+          $o->save();
+          array_push($orderArray,$o);
+        }
+       return $orderArray;
+    }
+
     public static function ShiftOrdersToNewKot($kot,$orders){
       for($i= 0 ; $i < sizeof($orders->iid); $i++){
         $order = Orders::find()->where([

@@ -47,13 +47,15 @@ class BillController extends Controller
         if($orders->load(Yii::$app->request->post())){
           $oldKot = Kot::findOne($orders->kid[0]);
           $waiter = $oldKot->waiter;
-          $kot = Kot::makeKot($waiter);
+          $kot = Kot::createKot($waiter->wid);
           Orders::ShiftOrdersToNewKot($kot,$orders);
           $orders = $kot->getAllOrders();
           if($orders){
             $orders = Orders::mergeIdenticalOrders($orders);
             $amount = Orders::calcualteTotal($orders);
-            $bill = Bill::makeBill($kot,$amount);
+            $bill = new Bill();
+            $bill->createBill($amount,'cash',0);
+            BillKot::createBillKot($bill,$kot);
             return $this->render('view', [
                 'discount' => $bill->discount_amount,
                 'tax' => $bill->tax,
@@ -67,7 +69,7 @@ class BillController extends Controller
             return $this->redirect(['site/index']);
           }
         }else{
-          $orders = $table->getOrdersNotBilled()->all();
+          $orders = $table->getOrdersNotBilled();
           return $this->render('split_bill',[
             'orders' => $orders,
             'table' => $table
@@ -100,14 +102,16 @@ class BillController extends Controller
     {
         $bill = new Bill();
         $table = RTable::findOne($tid);
-        $orders = $table->getOrdersNotBilled()->joinWith('item')->all();
+        $orders = $table->getOrdersNotBilled();
+        $orders = Orders::mergeIdenticalOrders($orders);
+        $tax = Tax::find()->one();
+        $amount = Orders::calcualteTotal($orders);
+        $total_amount = $amount + ($amount * $tax->value/100);
         if($orders){
-          $orders = Orders::mergeIdenticalOrders($orders);
-          $tax = Tax::find()->one();
-          $amount = $table->calculateBillTotal();
-          $total_amount = round($amount + ( $amount * ($tax->value/100)));
           if ($bill->load(Yii::$app->request->post())) {
-              $bill->generateBill($table, $amount);
+              $bill->createBill($amount,$bill->payment_mode,$bill->discount);
+              $kots = $table->getKotNotBilled();
+              BillKot::createBillKots($bill,$kots);
               try{
                   $tableName = $orders[0]->table->name;
                   $subString = substr($tableName,0,6);

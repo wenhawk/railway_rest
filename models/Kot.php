@@ -34,26 +34,25 @@ class Kot extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function createKot($order,$waiter){
+    public static function createKot($wid){
       $kot = new Kot();
       $kot->flag = 'true';
-	  date_default_timezone_set('Asia/Kolkata');
+	    date_default_timezone_set('Asia/Kolkata');
       $kot->timestamp = date('Y-m-d H:i:s');
-      $kot->wid = $waiter->name;
+      $kot->wid = $wid;
       $kot->save();
-      for ($i=0; $i < sizeof($order->iid); $i++) {
-        $o = new Orders();
-        $o->iid = $order->iid[$i];
-        $o->tid = $order->tid[$i];
-        $o->kid = $kot->kid;
-        $o->message = $order->message[$i];
-        $o->quantity = $order->quantity[$i];
-        $o->rank = $order->rank[$i];
-        $o->flag = 'true';
-        $o->save();
-      }
       return $kot;
     }
+
+    public function getAllOrders(){
+      $orders = Orders::find()->joinWith('kot')
+                ->joinWith('item')
+                ->where(['orders.kid' => $this->kid])
+                ->andWhere(['orders.flag' => 'true'])
+                ->all();
+      return $orders;
+    }
+
 
     public function isEmpty() {
       $orders = $this->getAllOrders();
@@ -70,25 +69,6 @@ class Kot extends \yii\db\ActiveRecord
           $order->flag = 'false';
           $order->save();
         }
-    }
-
-    public static function makeKot($waiter){
-      $kot = new Kot();
-      $kot->flag = 'true';
-	    date_default_timezone_set('Asia/Kolkata');
-      $kot->timestamp = date('Y-m-d H:i:s');
-      $kot->wid = $waiter->wid;
-      $kot->save();
-      return $kot;
-    }
-
-    public function getAllOrders(){
-      $orders = Orders::find()->joinWith('kot')
-                ->joinWith('item')
-                ->where(['orders.kid' => $this->kid])
-                ->andWhere(['orders.flag' => 'true'])
-                ->all();
-      return $orders;
     }
 
     public static function printKot($kid, $orders,$waiter,$ip){

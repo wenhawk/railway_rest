@@ -39,6 +39,21 @@ class Bill extends \yii\db\ActiveRecord
         ];
     }
 
+    public function createBill($amount,$payment_mode,$discount){
+      $tax = Tax::find()->one();
+      $this->gst = $tax->value;
+      $this->amount = $amount;
+      $this->discount = $discount;
+      $this->tax = round($amount * ($tax->value/100));
+      $this->total_amount = round($this->amount + $this->tax);
+      $this->discount_amount = round($this->total_amount * ($this->discount/100));
+      date_default_timezone_set('Asia/Kolkata');
+      $this->timestamp = date('Y-m-d H:i:s');
+      $this->payment_mode = $payment_mode;
+      $this->save();
+    }
+
+
     public function isEmpty(){
       $billKots = BillKot::find()->where(['flag'=>'true'])->all();
       if($billKots){
@@ -46,52 +61,6 @@ class Bill extends \yii\db\ActiveRecord
       }else{
         return True;
       }
-    }
-
-    public function generateBill($table, $amount) {
-      $tax = Tax::find()->one();
-      $this->gst = $tax->value;
-      $this->amount = $amount;
-      $this->tax = round($amount * ($tax->value/100));
-      $this->total_amount = round($this->amount + $this->tax);
-      $this->discount_amount = round($this->total_amount * ($this->discount/100));
-	  date_default_timezone_set('Asia/Kolkata');
-      $this->timestamp = date('Y-m-d H:i:s');
-      $this->save();
-      $kots = $table->getKotNotBilled();
-      foreach ($kots as $kot) {
-        $bill_kot = new BillKot();
-        $bill_kot->kid = $kot->kid;
-        $bill_kot->bid = $this->bid;
-        $bill_kot->flag = 'true';
-        $bill_kot->save();
-      }
-    }
-
-    public static function makeBill($kot,$amount){
-      $bill = new Bill();
-      $tax = Tax::find()->one();
-      $bill->gst = $tax->value;
-      $bill->amount = $amount;
-      $bill->payment_mode = 'cash';
-      $bill->discount = 0;
-      $bill->tax = round($amount * ($tax->value/100));
-      $bill->total_amount = round($bill->amount + $bill->tax);
-      $bill->discount_amount = round($bill->total_amount * ($bill->discount/100));
-	    date_default_timezone_set('Asia/Kolkata');
-      $bill->timestamp = date('Y-m-d H:i:s');
-      $bill->save();
-      $bill_kot = new BillKot();
-      $bill_kot->kid = $kot->kid;
-      $bill_kot->bid = $bill->bid;
-      $bill_kot->flag = 'true';
-      $bill_kot->save();
-      return $bill;
-    }
-
-    public function getBillKots()
-    {
-        return $this->hasMany(BillKot::className(), ['bid' => 'bid']);
     }
 
     public function getTable()
@@ -109,6 +78,20 @@ class Bill extends \yii\db\ActiveRecord
         }else{
           return 'NONE';
         }
+    }
+
+    public static function calculateBillTotal($startDate,$endDate,$column){
+      $total = Bill::find()->where('timestamp between \''.$startDate.'\' and \''.$endDate.'\'')
+              ->andWhere(['<>','payment_mode','credit'])
+              ->sum($column);
+      return $total;
+    }
+
+    public static function calculateBillTotalWithPaymentMode($startDate,$endDate,$payment_mode){
+      $total = Bill::find()->where('timestamp between \''.$startDate.'\' and \''.$endDate.'\'')
+              ->andWhere(['payment_mode'=>$payment_mode])
+              ->sum('amount');
+      return $total;
     }
 
     public function printBill($orders){
@@ -297,18 +280,9 @@ class Bill extends \yii\db\ActiveRecord
 
     }
 
-    public static function calculateBillTotal($startDate,$endDate,$column){
-      $total = Bill::find()->where('timestamp between \''.$startDate.'\' and \''.$endDate.'\'')
-              ->andWhere(['<>','payment_mode','credit'])
-              ->sum($column);
-      return $total;
-    }
-
-    public static function calculateBillTotalWithPaymentMode($startDate,$endDate,$payment_mode){
-      $total = Bill::find()->where('timestamp between \''.$startDate.'\' and \''.$endDate.'\'')
-              ->andWhere(['payment_mode'=>$payment_mode])
-              ->sum('amount');
-      return $total;
+    public function getBillKots()
+    {
+        return $this->hasMany(BillKot::className(), ['bid' => 'bid']);
     }
 
     public function getKots()
