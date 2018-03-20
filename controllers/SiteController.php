@@ -11,6 +11,7 @@ use app\models\RTable;
 use app\models\Bill;
 use app\models\Report;
 use app\models\Orders;
+use app\models\Git;
 
 class SiteController extends Controller
 {
@@ -52,9 +53,10 @@ class SiteController extends Controller
 
     public function actionIndex() {
         $tables = RTable::find()->where(['flag' => 'true'])->all();
-        return $this->render('index',[
-            'tables' => $tables
-        ]);
+        Git::pull();
+        // return $this->render('index',[
+        //     'tables' => $tables
+        // ]);
     }
 
     public function actionReport() {
